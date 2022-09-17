@@ -1,30 +1,53 @@
-import React from 'react';
-import { Switch, Route } from 'react-router-dom'
+import React, {useState} from 'react';
+import {Switch, Route, Redirect} from 'react-router-dom'
 import Home from './Home'
 import Blogpost from "./Blogpost";
-import Blog from "./Blog";
+import BlogOverzicht from "./BlogOverzicht";
 import Login from "./Login";
-
-
+import TopMenu from './TopMenu';
+import PrivateRoute from "./PrivateRoute";
 
 const Pages = () => {
+// We houden in de state bij of iemand is "ingelogd" (simpele versie)
+    const [isAuthenticated, toggleIsAuthenticated ] = useState(false);
+    console.log(isAuthenticated)
+
     return (
-        <Switch>
-            <Route exact path="/">
-                <Home />
-            </Route>
-            <Route path="/blogposts/:blogId">
-                <Blogpost />
-            </Route>
+        <>
+            <TopMenu
+                loginStatus={isAuthenticated}
+            />
 
-            <Route exact path="/blogposts">
-                <Blog />
-            </Route>
-            <Route path="/login">
-                <Login />
-            </Route>
+            <Switch>
+                <Route exact path="/">
+                    <Home />
+                </Route>
+                    {/*<Route path="/blogposts/:blogId">*/}
+                    {/*    {isAuthenticated === true ? <Blogpost /> : <Redirect to="/"/>}*/}
+                    {/*</Route>*/}
 
-        </Switch>
+                    <PrivateRoute path="/blogposts/:blogId" isAuth={isAuthenticated}>
+                        <Blogpost />
+                    </PrivateRoute>
+
+                    {/*<Route exact path="/blogposts">*/}
+                    {/*    isAuthenticated === true ? <BlogOverzicht /> : <Redirect to="/"/>}*/}
+                    {/*</Route>*/}
+
+                    <PrivateRoute exact path="/blogposts" isAuth={isAuthenticated}>
+                        <BlogOverzicht />
+                    </PrivateRoute>
+
+                }
+                <Route path="/login">
+                    <Login
+                        login={() => toggleIsAuthenticated(!isAuthenticated)}
+                        isLoggedIn={isAuthenticated}
+                    />
+                </Route>
+
+            </Switch>
+        </>
     )
 }
 

@@ -36,3 +36,15 @@ App {
     transform: rotate(360deg);
   }
 }
+
+nav {
+  display: flex;
+  flex-direction: row;
+
+  justify-content: space-between;
+
+  padding-bottom: 40px;
+  padding-top: 40px;
+  padding-left: 50%;
+  background-color: orange;
+}

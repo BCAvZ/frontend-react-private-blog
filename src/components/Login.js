@@ -1,13 +1,23 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 
-const Login = () => {
+const Login = ({login, isLoggedIn}) => {
     return (
         <div>
-                <button> <Link to="/blogposts">Inloggen</Link> </button>
+            {isLoggedIn ?
+
+                <button onClick={login}> <Link to="/Home">Uitloggen</Link> </button>
+
+                :
+
+                <button onClick={login}> <Link to="/blogposts">Inloggen</Link> </button>}
         </div>
     )
 }
 
 
 export default Login
+
+
+//
+// {(e) => toggleLoginStatus(!isLoggedIn)}
